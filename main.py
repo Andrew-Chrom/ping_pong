@@ -24,6 +24,7 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         elif key.get_pressed()[K_DOWN] and self.rect.y <= SIZE[1] - self.rect.height:
             self.rect.y += self.speed
+
     def update_l(self):
         if key.get_pressed()[K_w] and self.rect.y >= 0:
             self.rect.y -= self.speed
@@ -45,11 +46,11 @@ window.fill(BACKGROUND)
 display.update()
 
 
-player_1 = Player("data/player_1.png", 50, 50, 20, 75, 10)
-player_2 = Player("data/player_2.png", SIZE[0] - 50 - 20, 50, 20, 75, 10)
-ball = GameSprite("data/ball.png", 250, 250, 50, 50, 5)
-ball_x = 2 
-ball_y = 3
+player_1 = Player("data/player_1.png", 50, 50, 20, 100, 5)
+player_2 = Player("data/player_2.png", SIZE[0] - 50 - 20, 50, 20, 100, 5)
+ball = GameSprite("data/ball.png", 250, 250, 20, 20, 5)
+ball_x = 1
+ball_y = 2
 
 
 # ****************************** GAME LOOP ******************************
@@ -74,15 +75,16 @@ while state:
         if ball.rect.x < 0:
             window.blit(lose.render("Left side lost", True, PURPLE), (250, 250))
         else:
-            window.blit(lose.render("Right side lost", True, PURPLE), (250, 250)) 
+            window.blit(font.Font(None, 32).render("Right side lost", True, PURPLE), (250, 250)) 
+        display.update()
         continue
-
-    if sprite.collide_rect(ball, player_1) or sprite.collide_rect(ball, player_2) :
+        
+    if sprite.collide_rect(ball, player_1) or sprite.collide_rect(ball, player_2):
         ball_x *= (-1)
         ball_y *= (-1)
 
     if ball.rect.y <= 0 or ball.rect.y >= SIZE[1] - ball.rect.height:
-        ball.rect.y *= (-1)
+        ball_y *= (-1)
 
 
     if ball.rect.x < 0:
